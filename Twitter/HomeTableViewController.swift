@@ -10,6 +10,13 @@ import UIKit
 
 class HomeTableViewController: UITableViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadTweets()
+
+        print(self.tweetArray)
+    }
+    
     var tweetArray = [NSDictionary]()
     var numberOfTweets: Int!
     
@@ -18,11 +25,12 @@ class HomeTableViewController: UITableViewController {
         let loadParams = ["count":10]
 
         TwitterAPICaller.client?.getDictionariesRequest(url:loadUrl, parameters: loadParams, success: {(tweets: [NSDictionary]) in
-            //self.tweetArray.removeAll()
+            self.tweetArray.removeAll()
             for t in tweets {
                 self.tweetArray.append(t)
                 
             }
+            self.tableView.reloadData()
             //print(self.tweetArray)
         }, failure: { (Erorr) in
             print("cannot retrieve timeline")
@@ -30,19 +38,12 @@ class HomeTableViewController: UITableViewController {
     }
     
     @IBAction func onLogOut(_ sender: Any) {
-        print("log out")
         TwitterAPICaller.client?.logout()
-        print("log out!!")
         self.dismiss(animated: true, completion: nil)
         UserDefaults.standard.set(false, forKey: "userLoggedIn")
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        loadTweets()
-
-        print(tweetArray)
-    }
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -50,12 +51,8 @@ class HomeTableViewController: UITableViewController {
         
         let user = self.tweetArray[indexPath.row]["user"] as! NSDictionary
         
-        //cell.userNameLabel.text = user["name"] as? String
-        cell.userNameLabel?.text = "Yao"
-        //cell.tweetContent.text = tweetArray[indexPath.row]["text"] as? String
-        print(self.tweetArray[indexPath.row]["text"]!)
-        print(self.tweetArray)
-        cell.tweetContent?.text = "Content"
+        cell.userNameLabel.text = user["name"] as? String
+        cell.tweetContent.text = tweetArray[indexPath.row]["text"] as? String
         
         let imageUrl = URL(string: (user["profile_image_url_https"] as? String)!)
         let data = try? Data(contentsOf: imageUrl!)
@@ -80,3 +77,6 @@ class HomeTableViewController: UITableViewController {
 
  
 }
+
+ 
+
