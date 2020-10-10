@@ -21,7 +21,7 @@ The following **bonus** features are implemented:
 
 ## Video Walkthrough
 
-Here's a walkthrough of implemented user stories: TODO - XCode Simulator issues
+Here's a walkthrough of implemented user stories: 
 
 <img src='https://raw.githubusercontent.com/yaosarayin/Twitter_Mock/master/Twitter-1.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
